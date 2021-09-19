@@ -1,3 +1,4 @@
+import html2canvas from 'html2canvas';
 import { useState } from 'react';
 import './App.css'
 
@@ -20,8 +21,15 @@ function App() {
     setImagen(evento.target.value);
   }
 
-  const onClickBoton = () =>{
-    alert('Exportar')
+  const onClickBoton = (evento) =>{
+    html2canvas(document.querySelector("#meme")).then(canvas => {
+      let img = canvas.toDataURL('image.png');
+      let link = document.createElement('a');
+
+      link.download = 'meme.png';
+      link.href = img;
+      link.click();
+    });
   }
 
   return (
@@ -40,7 +48,7 @@ function App() {
 
       <button onClick = {onClickBoton}>Exportar</button>
 
-      <div className = 'meme'>
+      <div className = 'meme' id='meme'>
         <span>{linea1}</span> <br/>
         <span>{linea2}</span> 
         <img src={'/img/'+ imagen + '.jpg'} alt="img" />
